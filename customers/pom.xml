@@ -11,6 +11,7 @@
 	<groupId>com.accenture</groupId>
 	<artifactId>customers</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>customers</name>
 	<description>Microservicio de clientes bancarios</description>
 	<properties>
@@ -68,12 +69,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
+					<image>
+						<name>malbertocuao/my-bank-${project.artifactId}:v0.0.2</name>
+					</image>
 				</configuration>
 			</plugin>
 		</plugins>
