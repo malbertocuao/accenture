@@ -15,9 +15,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,11 +32,23 @@ import java.time.LocalDateTime;
 )
 @Validated
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping(path = "/api")
 public class CustomerController {
 
+    @NonNull
     private final ICustomerService iCustomerService;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @GetMapping(value = "/build-info", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseDto> getBuildInfo() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto("200", buildVersion));
+    }
 
     @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
     public String helloWorld() {

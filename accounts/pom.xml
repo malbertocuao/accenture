@@ -11,6 +11,7 @@
 	<groupId>com.accenture</groupId>
 	<artifactId>accounts</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>accounts</name>
 	<description>Microservicio de cuentas para my bank</description>
 	<url/>
@@ -83,15 +84,16 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.3</version>
 				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
+					<from>
+						<image>openjdk:17-slim-buster</image>
+					</from>
+					<to>
+						<image>malbertocuao/my-bank-${project.artifactId}:v0.0.2</image>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>

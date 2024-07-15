@@ -20,3 +20,6 @@ spring:
   h2:
     console:
       enabled: true
+
+build:
+  version: "v0.0.2"
