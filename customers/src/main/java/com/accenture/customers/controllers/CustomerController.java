@@ -3,6 +3,7 @@ package com.accenture.customers.controllers;
 import com.accenture.customers.dto.CustomerDto;
 import com.accenture.customers.dto.ErrorResponseDto;
 import com.accenture.customers.dto.ResponseDto;
+import com.accenture.customers.dto.SupportInfoDto;
 import com.accenture.customers.service.ICustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,12 +16,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +43,28 @@ public class CustomerController {
 
     @Value("${build.version}")
     private String buildVersion;
+
+    @NonNull
+    private Environment environment;
+
+    @NonNull
+    private SupportInfoDto supportInfo;
+
+    @GetMapping(value = "/support-info")
+    public ResponseEntity<SupportInfoDto> supportInfo() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(supportInfo);
+    }
+
+    @GetMapping(value = "/java-home")
+    public ResponseEntity<String> javaVersion() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
+    }
 
     @GetMapping(value = "/build-info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseDto> getBuildInfo() {

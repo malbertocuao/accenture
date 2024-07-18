@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="customers" />
         <module name="accounts" />
+        <module name="configserver" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="accounts" options="-parameters" />
+      <module name="configserver" options="-parameters" />
       <module name="customers" options="-parameters" />
     </option>
   </component>

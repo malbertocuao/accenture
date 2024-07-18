@@ -4,6 +4,8 @@ import com.accenture.accounts.dto.*;
 import com.accenture.accounts.services.IAccountService;
 import com.accenture.accounts.services.ITransactionsService;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +18,34 @@ import java.util.List;
 @RequestMapping(path = "/api")
 public class AccountController {
 
+    @NonNull
     private IAccountService accountService;
+
+    @NonNull
     private ITransactionsService transactionsService;
+
+    @NonNull
+    private Environment environment;
+
+    @NonNull
+    private SupportInfoDto supportInfo;
+
+    @GetMapping(value = "/support-info")
+    public ResponseEntity<SupportInfoDto> supportInfo() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(supportInfo);
+    }
+
+
+    @GetMapping(value = "/java-home")
+    public ResponseEntity<String> javaVersion() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("JAVA_HOME"));
+    }
 
     @PostMapping(value = "/createAccount", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountDto> createAccount(@RequestBody NewAccountDto accountDto) {

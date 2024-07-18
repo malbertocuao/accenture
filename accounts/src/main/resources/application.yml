@@ -20,3 +20,31 @@ spring:
   h2:
     console:
       enabled: true
+
+# Configuración de perfiles por config server
+  profiles:
+    active: "qa"
+  config:
+    import: "optional:configserver:http://localhost:8071"
+
+#  Configuración de perfiles por archivo
+#  config:
+#    import:
+#      - "application_qa.yml"
+#      - "application_prod.yml"
+#  profiles:
+#    active:
+#      - "default"
+
+build:
+  version: "v0.0.2"
+
+support:
+  message: "Bienvenidos al sistema bancario (Cuentas) Accenture"
+  contactInfo:
+    name: "Max Alberto Cuao"
+    email: "malbertocuao@gmail.com"
+  phoneNumbers:
+    - "(57) 3057459906"
+    - "(57) 3052610117"
+

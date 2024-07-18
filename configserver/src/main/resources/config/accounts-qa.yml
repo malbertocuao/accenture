@@ -1,0 +1,11 @@
+build:
+  version: "v0.0.2"
+
+support:
+  message: "Bienvenidos al sistema Cuentas de Accenture - Sistema en Pruebas"
+  contactInfo:
+    name: "QA - Cuentas"
+    email: "product.tester@gmail.com"
+  phoneNumbers:
+    - "(57) 3057459906"
+    - "(57) 3052610117"
