@@ -21,6 +21,12 @@ spring:
     console:
       enabled: true
 
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
   profiles:
     active: "prod"
   config:
@@ -34,14 +40,8 @@ spring:
 #    active:
 #      - "default"
 
-build:
-  version: "v0.0.2"
-
-support:
-  message: "Bienvenidos al sistema bancario (Clientes) Accenture"
-  contactInfo:
-    name: "Max Alberto Cuao"
-    email: "malbertocuao@gmail.com"
-  phoneNumbers:
-    - "(57) 3057459906"
-    - "(57) 3052610117"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

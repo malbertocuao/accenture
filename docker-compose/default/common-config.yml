@@ -1,0 +1,26 @@
+services:
+  network-service:
+    networks:
+      - accenture
+
+  microservices-base:
+    extends:
+      service: network-service
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbitmq"
+
+  microservice-configserver:
+    extends:
+      service: microservices-base
+    depends_on:
+      configserver:
+        condition: service_started
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
+
+

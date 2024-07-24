@@ -1,0 +1,60 @@
+services:
+  rabbitmq:
+    image: "rabbitmq:3.13-management"
+    hostname: "rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    extends:
+      file: common-config.yml
+      service: network-service
+
+  configserver:
+    image: "malbertocuao/configserver:v1.0.0"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+#    healthcheck:
+#      test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 10s
+    extends:
+      file: common-config.yml
+      service: microservices-base
+
+  customers:
+    image: "malbertocuao/my-bank-customers:v1.0.0"
+    container_name: customer-ms
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_APPLICATION_NAME: "customers"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver
+
+  accounts:
+    image: "malbertocuao/my-bank-accounts:v1.0.0"
+    container_name: accounts-ms
+    ports:
+      - "8010:8010"
+    environment:
+      SPRING_APPLICATION_NAME: "accounts"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver
+
+networks:
+  accenture:
+    driver: "bridge"
