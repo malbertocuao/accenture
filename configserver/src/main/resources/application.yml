@@ -2,15 +2,9 @@ spring:
   application:
     name: "configserver"
 
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
-
   profiles:
-#    active: native
     active: git
+
   cloud:
     config:
       server:
@@ -20,9 +14,6 @@ spring:
           timeout: 5
           clone-on-start: true
           force-pull: true
-#        native:
-#          search-locations: "file:///Users/malbertocuao/config"
-#          search-locations: "classpath:/config"
 
 management:
   endpoints:

@@ -6,39 +6,23 @@ spring:
     name: "customers"
 
   datasource:
-    url: jdbc:h2:mem:customerdb
-    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:customersdb
+    driverClassName: org.h2.Driver
     username: sa
     password: ''
-
+  h2:
+    console:
+      enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
-  h2:
-    console:
-      enabled: true
-
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
-
   profiles:
     active: "prod"
   config:
     import: "optional:configserver:http://localhost:8071"
-
-#  config:
-#    import:
-#      - "application_qa.yml"
-#      - "application_prod.yml"
-#  profiles:
-#    active:
-#      - "default"
 
 management:
   endpoints:
