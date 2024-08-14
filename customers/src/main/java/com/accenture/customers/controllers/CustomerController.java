@@ -39,9 +39,6 @@ public class CustomerController {
     @NonNull
     private final ICustomerService iCustomerService;
 
-//    @Value("${build.version}")
-//    private String buildVersion;
-
     @NonNull
     private Environment environment;
 
@@ -63,14 +60,6 @@ public class CustomerController {
                 .status(HttpStatus.OK)
                 .body(environment.getProperty("JAVA_HOME"));
     }
-
-//    @GetMapping(value = "/build-info", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ResponseDto> getBuildInfo() {
-//
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(new ResponseDto("200", buildVersion));
-//    }
 
     @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
     public String helloWorld() {

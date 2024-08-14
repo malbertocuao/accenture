@@ -1,17 +1,21 @@
 package com.accenture.customers.service.implementation;
 
+import com.accenture.customers.dto.AccountDto;
 import com.accenture.customers.dto.CustomerDto;
+import com.accenture.customers.dto.CustomerWithAccounts;
 import com.accenture.customers.entity.Customer;
 import com.accenture.customers.exception.ResourceAlreadyExists;
 import com.accenture.customers.exception.ResourceNotFound;
 import com.accenture.customers.mapper.CustomerMapper;
 import com.accenture.customers.repository.CustomerRepository;
 import com.accenture.customers.service.ICustomerService;
+import com.accenture.customers.service.client.CustomerFeignClient;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +23,7 @@ import java.util.Optional;
 public class CustomerService implements ICustomerService {
 
     private CustomerRepository customerRepository;
+    private CustomerFeignClient customerFeignClient;
 
     @Override
     public void createCustomer(CustomerDto customerDto) {
@@ -30,9 +35,6 @@ public class CustomerService implements ICustomerService {
         }
 
         Customer customer = CustomerMapper.mapDtoToCustomer(customerDto, new Customer());
-
-//        customer.setCreatedDate(LocalDateTime.now());
-//        customer.setCreatedBy("Admin");
 
         customerRepository.save(customer);
     }
@@ -74,6 +76,22 @@ public class CustomerService implements ICustomerService {
     @Override
     public void deleteByDocument(String document) {
         customerRepository.deleteByDocument(document);
+    }
+
+    @Override
+    public CustomerWithAccounts fetchCustomerWithAccountsByDocument(String document) {
+        Customer customer = customerRepository.findByDocument(document).orElseThrow(
+                () -> new ResourceNotFound("Cliente", "Documento", document)
+        );
+
+        CustomerWithAccounts customerWithAccounts = CustomerMapper.mapCustomerToDtoWithAccounts(customer, new CustomerWithAccounts());
+
+        ResponseEntity<List<AccountDto>> accountsResponse = customerFeignClient.fetchCustomerAccounts(customer.getCustomerId());
+        List<AccountDto> accounts = accountsResponse.getBody();
+
+        customerWithAccounts.setAccounts(accounts);
+
+        return customerWithAccounts;
     }
 
 }

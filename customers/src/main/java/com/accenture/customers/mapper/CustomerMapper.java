@@ -1,6 +1,7 @@
 package com.accenture.customers.mapper;
 
 import com.accenture.customers.dto.CustomerDto;
+import com.accenture.customers.dto.CustomerWithAccounts;
 import com.accenture.customers.entity.Customer;
 
 public class CustomerMapper {
@@ -13,6 +14,16 @@ public class CustomerMapper {
         customerDto.setEmail(customer.getEmail());
 
         return customerDto;
+    }
+
+    public static CustomerWithAccounts mapCustomerToDtoWithAccounts(Customer customer, CustomerWithAccounts customerDtoWithAccounts){
+        customerDtoWithAccounts.setAddress(customer.getAddress());
+        customerDtoWithAccounts.setDocument(customer.getDocument());
+        customerDtoWithAccounts.setName(customer.getName());
+        customerDtoWithAccounts.setPhone(customer.getPhone());
+        customerDtoWithAccounts.setEmail(customer.getEmail());
+
+        return customerDtoWithAccounts;
     }
 
     public static Customer mapDtoToCustomer(CustomerDto customerDto, Customer customer) {

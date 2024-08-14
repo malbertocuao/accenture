@@ -1,6 +1,7 @@
 package com.accenture.customers.service;
 
 import com.accenture.customers.dto.CustomerDto;
+import com.accenture.customers.dto.CustomerWithAccounts;
 
 public interface ICustomerService {
 
@@ -13,4 +14,6 @@ public interface ICustomerService {
     CustomerDto updateCustomer(CustomerDto customerDto);
 
     void deleteByDocument(String document);
+
+    CustomerWithAccounts fetchCustomerWithAccountsByDocument(String document);
 }
