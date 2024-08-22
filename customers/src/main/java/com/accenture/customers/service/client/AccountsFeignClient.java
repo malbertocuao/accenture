@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient("accounts")
-public interface CustomerFeignClient {
+@FeignClient(name = "accounts", fallback = FallbackAccounts.class)
+public interface AccountsFeignClient {
 
     @GetMapping(value = "/api/fetchCustomerAccounts/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AccountDto>> fetchCustomerAccounts(@PathVariable Long customerId);

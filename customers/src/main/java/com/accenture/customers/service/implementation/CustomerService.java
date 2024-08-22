@@ -9,12 +9,12 @@ import com.accenture.customers.exception.ResourceNotFound;
 import com.accenture.customers.mapper.CustomerMapper;
 import com.accenture.customers.repository.CustomerRepository;
 import com.accenture.customers.service.ICustomerService;
-import com.accenture.customers.service.client.CustomerFeignClient;
+import com.accenture.customers.service.client.AccountsFeignClient;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CustomerService implements ICustomerService {
 
     private CustomerRepository customerRepository;
-    private CustomerFeignClient customerFeignClient;
+    private AccountsFeignClient accountsFeignClient;
 
     @Override
     public void createCustomer(CustomerDto customerDto) {
@@ -78,6 +78,7 @@ public class CustomerService implements ICustomerService {
         customerRepository.deleteByDocument(document);
     }
 
+
     @Override
     public CustomerWithAccounts fetchCustomerWithAccountsByDocument(String document) {
         Customer customer = customerRepository.findByDocument(document).orElseThrow(
@@ -86,10 +87,12 @@ public class CustomerService implements ICustomerService {
 
         CustomerWithAccounts customerWithAccounts = CustomerMapper.mapCustomerToDtoWithAccounts(customer, new CustomerWithAccounts());
 
-        ResponseEntity<List<AccountDto>> accountsResponse = customerFeignClient.fetchCustomerAccounts(customer.getCustomerId());
-        List<AccountDto> accounts = accountsResponse.getBody();
+        ResponseEntity<List<AccountDto>> accountsResponse = accountsFeignClient.fetchCustomerAccounts(customer.getCustomerId());
 
-        customerWithAccounts.setAccounts(accounts);
+        if (accountsResponse != null) {
+            List<AccountDto> accounts = accountsResponse.getBody();
+            customerWithAccounts.setAccounts(accounts);
+        }
 
         return customerWithAccounts;
     }

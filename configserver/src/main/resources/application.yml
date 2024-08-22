@@ -3,20 +3,20 @@ spring:
     name: "configserver"
 
   profiles:
-    active: native
-#    active: git
+#    active: native
+    active: git
 
   cloud:
     config:
       server:
-         native:
-         search-locations: "classpath:/config"
-#        git:
-#          uri: "https://github.com/malbertocuao/bank-config.git"
-#          default-label: main
-#          timeout: 5
-#          clone-on-start: true
-#          force-pull: true
+#         native:
+#         search-locations: "classpath:/config"
+        git:
+          uri: "https://github.com/malbertocuao/bank-config.git"
+          default-label: main
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
 
 management:
   endpoints:
